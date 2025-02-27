@@ -1,44 +1,10 @@
-import gc
 import time
-
-import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
-
-seed = 1111
-def setup_all_seed(seed=0):
-    # numpyに関係する乱数シードの設定
-    np.random.seed(seed)
-    
-    # pytorch
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-    torch.backends.cudnn.deterministic = True
-    
-
-# PyTorchで高速化するのに、必要な設定
-def enable_misc_optimizations():
-    torch.backends.cudnn.allow_tf32 = True
-    torch.backends.cudnn.benchmark = False
-    torch.backends.cudnn.benchmark_limit = 1
-    torch.backends.cuda.matmul.allow_tf32 = True
-    torch.backends.cuda.matmul.allow_fp16_reduced_precision_reduction = False
-    # torch.backends.cuda.matmul.allow_bf16_reduced_precision_reduction = False
-    if torch.backends.cudnn.benchmark:
-        print("Enabled CUDNN Benchmark Sucessfully")
-    else:
-        print("CUDNN Benchmark Disabled")
-    if torch.backends.cuda.matmul.allow_tf32 and torch.backends.cudnn.allow_tf32:
-        print("Enabled CUDA & CUDNN TF32 Sucessfully")
-    else:
-        print("CUDA & CUDNN TF32 Disabled")
-        
-enable_misc_optimizations()
-setup_all_seed(seed)
 
 # MLPモデルの定義
 # シンプルな多層パーセプトロンモデルを定義するクラス
